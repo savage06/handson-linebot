@@ -55,6 +55,7 @@ def judge(userhand, bothand):
             original_content_url = "https://hanson1.herokuapp.com/static/images/index.jpeg", 
             previewImageUrl = "https://hanson1.herokuapp.com/static/images/index.jpeg"
         )
+        return message 
     return "bothand is " + hand + "\n" + text
 
 @app.route("/callback", methods=['POST'])
