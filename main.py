@@ -53,10 +53,10 @@ def judge(userhand, bothand):
     else:
         message = ImageSendMessage(
             original_content_url = "https://hanson1.herokuapp.com/static/images/index.jpeg", 
-            previewImageUrl = "https://hanson1.herokuapp.com/static/images/index.jpeg"
+            preview_image_url = "https://hanson1.herokuapp.com/static/images/index.jpeg"
         )
-        return message 
-    return "bothand is " + hand + "\n" + text
+        return message
+    return TextSendMessage(text="bothand is " + hand + "\n" + text)
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -78,14 +78,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # message = event.message.text                     <--- コメントアウト
-    # message = hands_to_int(event.message.text)       <--- コメントアウト
-    # message = select_bothand()                       <--- コメントアウト
     message = judge(hands_to_int(event.message.text), select_bothand())
     line_bot_api.reply_message(
         event.reply_token,
         message
     )
+
 if __name__ == "__main__":
 #    app.run()
     port = int(os.getenv("PORT", 5000))
