@@ -51,7 +51,10 @@ def judge(userhand, bothand):
     elif (userhand - bothand + 3) % 3 == 1:
         text = "You lose"
     else:
-        text = "You win"
+        message = ImageSendMessage(
+            original_content_url = "https://hanson1.herokuapp.com/static/images/index.jpeg", 
+            previewImageUrl = "https://hanson1.herokuapp.com/static/images/index.jpeg"
+        )
     return "bothand is " + hand + "\n" + text
 
 @app.route("/callback", methods=['POST'])
@@ -80,9 +83,7 @@ def handle_message(event):
     message = judge(hands_to_int(event.message.text), select_bothand())
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=message))
-
-
+        message
 
 if __name__ == "__main__":
 #    app.run()
