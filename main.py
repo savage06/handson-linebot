@@ -49,7 +49,10 @@ def judge(userhand, bothand):
     if (userhand - bothand + 3) % 3 == 0:
         text = "Draw"
     elif (userhand - bothand + 3) % 3 == 1:
-        text = "You lose"
+        message = AudioSendMessage(
+            original_content_url = "https://hanson1.herokuapp.com/static/audios/se_maoudamashii_onepoint33.mp3",
+            duration = 1000
+        )
     else:
         message = ImageSendMessage(
             original_content_url = "https://hanson1.herokuapp.com/static/images/index.jpeg", 
