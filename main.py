@@ -35,6 +35,24 @@ def hands_to_int(userhand):
 def select_bothand():
    return random.randint(0, 2)
 
+def judge(userhand, bothand):
+    if userhand == -1:
+        return "Select by グー/チョキー/パー"
+
+    if bothand == 0:
+        hand = "グー"
+    elif bothand == 1:
+        hand = "チョキ"
+    else:
+        hand = "パー"
+ 
+    if (userhand - bothand + 3) % 3 == 0:
+        text = "Draw"
+    elif (userhand - bothand + 3) % 3 == 1:
+        text = "You lose"
+    else:
+        text = "You win"
+    return "bothand is " + hand + "\n" + text
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -58,7 +76,8 @@ def callback():
 def handle_message(event):
     # message = event.message.text                     <--- コメントアウト
     # message = hands_to_int(event.message.text)       <--- コメントアウト
-    message = select_bothand()
+    # message = select_bothand()                       <--- コメントアウト
+    message = judge(hands_to_int(event.message.text), select_bothand())
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=message))
