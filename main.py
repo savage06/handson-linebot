@@ -32,6 +32,9 @@ def hands_to_int(userhand):
     else:
         return -1
 
+def select_bothand():
+   return random.randint(0, 2)
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -53,11 +56,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # message = event.message.text
-    message = hands_to_int(event.message.text)
+    # message = event.message.text                     <--- コメントアウト
+    # message = hands_to_int(event.message.text)       <--- コメントアウト
+    message = select_bothand()
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=message))
+
 
 
 if __name__ == "__main__":
