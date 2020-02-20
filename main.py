@@ -47,11 +47,11 @@ def judge(userhand, bothand):
         hand = "パー"
  
     if (userhand - bothand + 3) % 3 == 0:
-        message = StickerSendMessege(
-		package_id = 1,
-		sticker_id = 1
-	)
-	return message
+        message = StickerSendMessage(
+            package_id = 1,
+            sticker_id = 1
+        )	    
+        return message
     elif (userhand - bothand + 3) % 3 == 1:
         message = AudioSendMessage(
             original_content_url = "https://hanson1.herokuapp.com/static/audios/se_maoudamashii_onepoint33.mp3",
