@@ -53,6 +53,7 @@ def judge(userhand, bothand):
             original_content_url = "https://hanson1.herokuapp.com/static/audios/se_maoudamashii_onepoint33.mp3",
             duration = 1000
         )
+        return message
     else:
         message = ImageSendMessage(
             original_content_url = "https://hanson1.herokuapp.com/static/images/index.jpeg", 
