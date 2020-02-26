@@ -51,8 +51,9 @@ def register():
         db.session.add(task)
         db.session.commit()
 
-        return render_template('success.html')  return render_template('index.html')
+        return render_template('success.html')  
 
 if __name__ == '__main__':
     app.debug = True
     app.run()
+    return render_template('index.html')
