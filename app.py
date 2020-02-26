@@ -36,10 +36,10 @@ class Task(db.Model):
 def register():
     if request.method == 'POST':
         name= request.form['name']
-       email = request.form['email']
-      task = request.form['task']
+        email = request.form['email']
+        task = request.form['task']
         # emailが未登録ならユーザー追加
-       if not db.session.query(User).filter(User.email == email).count():
+        if not db.session.query(User).filter(User.email == email).count():
             reg = User(name, email)
             db.session.add(reg)
             db.session.commit()
