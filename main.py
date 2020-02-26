@@ -13,6 +13,8 @@ from linebot.models import (
 import os
 import random
 
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
@@ -25,6 +27,13 @@ class Message(db.Model):
     def __init__(self, usermessage):
         self.usermessage = usermessage
 
+class Player(db.Model):
+  _tablename_="users"
+  id = db.Column("id"db.Integer, primary_key=True)
+  a = db.Column("a"db.Integer)
+  b = db.Column("b"db.String(80))
+  c = db.Column("c"db.String(80))
+
 
 #環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -34,7 +43,8 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 def record_message(userMessage):
-    reg = Message(userMessage)
+    reg = Player()
+    reg.b = userMessage
     db.session.add(reg)
     db.session.commit()
 
