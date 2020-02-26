@@ -29,10 +29,10 @@ class Message(db.Model):
 
 class Player(db.Model):
   _tablename_="users"
-  id = db.Column("id"db.Integer, primary_key=True)
-  a = db.Column("a"db.Integer)
-  b = db.Column("b"db.String(80))
-  c = db.Column("c"db.String(80))
+  id = db.Column(db.Integer, primary_key=True)
+  a = db.Column(db.Integer)
+  b = db.Column(db.String(80))
+  c = db.Column(db.String(80))
 
 
 #環境変数取得
