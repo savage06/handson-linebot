@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-
+from flask_sqlalchemy import SQLAlchemy
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -13,6 +13,18 @@ import os
 import random
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usermessage = db.Column(db.String(80), unique=True)
+
+
+    def __init__(self, usermessage):
+        self.usermessage = usermessage
+
+
 
 #環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -20,6 +32,16 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+def record_message(userMessage):
+    reg = Message(userMessage)
+    db.session.add(reg)
+    db.session.commit()
+
+    all_messages = db.session.query(Message).all()
+    Message = all_messages[0].userMessage
+    return Message
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -41,7 +63,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = event.message.text
+    message = record_message(event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=message))
