@@ -58,7 +58,7 @@ def callback():
 def show_room(event):
     # all_rooms = db.session.query(Room).all()
     # print(all_rooms)
-    groupId = event.source.groupId
+    groupId = event.source.group_id
     return groupId
 
 @handler.add(MessageEvent, message=TextMessage)
