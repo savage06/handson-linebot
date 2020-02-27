@@ -30,6 +30,21 @@ class Room(db.Model):
         self.phase = phase
         self.player = player
         self.roomact = roomact  
+
+class Player(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.String(80))
+    name = db.Column(db.String(80))
+    ans = db.Column(db.String(80))
+    playact = db.Column(db.Integer)
+    vote = db.Column(db.Integer)
+
+    def __init__(self, player_id,name, ans, playact, vote):
+        self.player_id = player_id
+        self.name =name
+        self.ans = ans
+        self.playact = playact        
+        self.vote = vote 
         
     
 # def thisRoom():
@@ -67,19 +82,30 @@ def show_room(event):
 
 def record_room(event):
     groupId = event.source.group_id
-    db.session.add(Room(groupId, "suspend", 0, 0))
-    db.session.commit()
-    message = "ゲームを開始する場合は「開始」と入力してください"
-    return message
+    match_rooms = db.session.query(Room).filter(Room.group_id==groupId)
+    if len(match_rooms) ==0:
+        db.session.add(Room(groupId, "suspend", 0, 0))
+        db.session.commit()
+        message = "グループID({})をDBに保存しました".format(groupId)    
+    else:
+        message="該当グループidが存在します"    
+    return message + "開始する場合は「開始」と入力してください"
 
 def receive_message(event):
     groupId = event.source.group_id
     userMessage = event.message.text
+    profile = line_bot_api.get_profile(event.source.user_id)
+    f = db.session.query(Room).filter(Room.group_id == groupId)[0]
     if userMessage == "開始":
-        f = db.session.query(Room).filter(Room.group_id == groupId)[0]
         f.phase = "invite"
         db.session.commit()
         message = "参加者は「参加」と入力してください"
+    if f.phase == "invite":
+        if userMessage == "参加":
+          db.session.add(Player(profile.user_id,profile.displey_name,"",0,0))
+
+        elif userMessage == "締切り":
+        messsage = "sixtupai"  
     else: 
         message = "不正な入力です"
     return message
