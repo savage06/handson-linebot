@@ -102,10 +102,10 @@ def receive_message(event):
         message = "参加者は「参加」と入力してください"
     if f.phase == "invite":
         if userMessage == "参加":
-          db.session.add(Player(profile.user_id,profile.displey_name,"",0,0))
+            db.session.add(Player(profile.user_id,profile.displey_name,"",0,0))
 
         elif userMessage == "締切り":
-        messsage = "sixtupai"  
+            messsage = "sixtupai"  
     else: 
         message = "不正な入力です"
     return message
