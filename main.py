@@ -55,14 +55,15 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-def show_room(userMessage):
-    all_rooms = db.session.query(Room).all()
-    print(all_rooms)
-    return "show_room"
+def show_room(event):
+    # all_rooms = db.session.query(Room).all()
+    # print(all_rooms)
+    groupId = event.source.groupId
+    return groupId
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = show_room(event.message.text)
+    message = show_room(event)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text = message))
