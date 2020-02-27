@@ -8,7 +8,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, JoinEvent, LeaveEvent
 )
 import os
 import random
@@ -20,14 +20,16 @@ import time
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.String(80))
     phase = db.Column(db.String(80))
     player = db.Column(db.Integer)
     roomact = db.Column(db.Integer)
 
-    def __init__(self, phase, player, roomact):
+    def __init__(self, group_id,phase, player, roomact):
         self.phase = phase
         self.player = player
         self.roomact = roomact  
+        self.group_id = group_id
     
 # def thisRoom():
 #   rooms = session.query(Room).filter(Room.id==event.source.group_id).all()
@@ -63,6 +65,13 @@ def show_room(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    message = show_room(event)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text = message))
+
+@handler.add(JoinEvent)
+def handle_join(event):
     message = show_room(event)
     line_bot_api.reply_message(
         event.reply_token,
