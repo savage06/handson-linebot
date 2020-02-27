@@ -36,6 +36,10 @@ class Room(db.Model):
     phase = db.Column(db.String(80), unique=True)
     player = db.Column(db.String(120), unique=True)
     roomact = db.Column(db.Integer, unique=True)
+    def __init__(self, phase, player, roomact):
+        self.phase = phase
+        self.player = player
+        self.roomact = roomact
 
 def question(num):
         text ='お題は「%s × %s」です。'%(
