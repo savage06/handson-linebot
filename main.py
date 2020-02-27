@@ -57,11 +57,19 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+
 def show_room(event):
     # all_rooms = db.session.query(Room).all()
     # print(all_rooms)
     groupId = event.source.group_id
     return groupId
+
+def record_room(event):
+    groupId = event.source.group_id
+    db.session.add(Room(groupId, "suspend", 0, 0))
+    db.session.commit()
+    message = "グループID({})をDBに保存しました".format(groupId)
+    return message
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -72,7 +80,7 @@ def handle_message(event):
 
 @handler.add(JoinEvent)
 def handle_join(event):
-    message = show_room(event)
+    message = record_room(event)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text = message))
