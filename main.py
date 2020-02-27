@@ -44,17 +44,17 @@ def thisRoom():
   return rooms(0)
 
 
-def question(num):
-        text ='お題は「%s × %s」です。'%(
-          themes1[random.randint(0, len(themes1)-1)], 
-          themes2[random.randint(0, len(themes2)-1)]
-          )
-        TextSendMessage('%sさんの番です'%playerdict{playerIDs_SO[num]}.name)
-        TextSendMessage('抽選中・・・')
-        time.sleep(3.0)
-        TextSendMessage(text)
-        global actedNum
-        actedNum+=1
+  # def question(num):
+  #       text ='お題は「%s × %s」です。'%(
+  #         themes1[random.randint(0, len(themes1)-1)], 
+  #         themes2[random.randint(0, len(themes2)-1)]
+  #         )
+  #       TextSendMessage('%sさんの番です'%playerdict{playerIDs_SO[num]}.name)
+  #       TextSendMessage('抽選中・・・')
+  #       time.sleep(3.0)
+  #       TextSendMessage(text)
+  #       global actedNum
+  #       actedNum+=1
 
 def createConfirm():
   confirm_temprate_message = TemplateSendMessage(
