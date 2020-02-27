@@ -77,7 +77,7 @@ def receive_message(event):
     userMessage = event.message.text
     if userMessage == "開始":
         f = db.session.query(Room).filter(Room.group_id == groupId)[0]
-        f.phase == "invite"
+        f.phase = "invite"
         db.session.commit()
         message = "参加者は「参加」と入力してください"
     else: 
