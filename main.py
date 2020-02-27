@@ -65,7 +65,7 @@ def handle_message(event):
     message = show_room(event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
-        message)
+        TextSendMessage(text = message))
 
 if __name__ == "__main__":
 #    app.run()
